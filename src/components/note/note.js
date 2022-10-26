@@ -2,6 +2,8 @@ import React from 'react';
 import './Note.css';
 import deleteIcon from '../../assets/delete-icon.svg'
 
+
+let timer = 500, timeout
 function Note(props) {
 
   const formatDate=(value)=>{
@@ -22,12 +24,21 @@ function Note(props) {
     const month = monthNames[date.getMonth()];
 
     return `${hrs} : ${min} ${amPm} ${day} ${month}`;
+  };
 
+  const debounce = (func) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(func, timer);
+  };
 
-  }
+   const updateText = (text, id) => {
+    debounce(() => props.updateText(text, id));
+   };
 
   return <div className='note' style={{backgroundColor:props.note.color}}>
-      <textarea className='note_text' defaultValue={props.note.text}/>
+      <textarea className='note_text' defaultValue={props.note.text}
+      onChange = {(event) => updateText(event.target.value, props.note.id)}
+      />
       <div className="note_footer">
         <p>{formatDate(props.note.time)}</p>
         <img src={deleteIcon} alt="delete"  onClick={() => props.deleteNote(props.note.id)}/>

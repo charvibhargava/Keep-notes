@@ -25,6 +25,7 @@ function NoteContainer(props) {
           key = {item.id}
           note={item}
           deleteNote={props.deleteNote}
+          updateText = {props.updateText}
           />
           )) : (<h3>No Notes Present</h3>)
         }
